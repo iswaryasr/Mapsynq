@@ -6,7 +6,10 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class PropertyLoader {
-
+	/**
+	 * 
+	 * @return
+	 */
 	public static Properties loadProperties(){
 		
 		InputStream input = null;

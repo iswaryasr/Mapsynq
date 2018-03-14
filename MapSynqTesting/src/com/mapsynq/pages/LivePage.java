@@ -155,9 +155,9 @@ public class LivePage {
 	public void setWebDriver(WebDriver webDriver) {
 		this.webDriver = webDriver;
 	}
-	public LivePage(WebDriver webDriver){
+	public LivePage(WebDriver webDriver, Properties properties){
 		this.webDriver = webDriver;
-		properties = PropertyLoader.loadProperties();
+		this.properties =properties;
 	}
 	
 	public void clickLiveTab(){
@@ -222,8 +222,8 @@ public class LivePage {
 					System.out.println("*"+incident.getText());
 				}
 			}
-				
 		}
-	}
+		
+	}	
 	
 }

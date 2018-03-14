@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.mapsynq.util.PropertyLoader;
@@ -31,7 +32,7 @@ public class DirectionsPage {
 		trafficRouteRibbon = webDriver.findElement(By.xpath(properties.getProperty("trafficroutexpath")));
 		trafficRouteDirection = webDriver.findElements(By.xpath(properties.getProperty("trafficroutedirection")));
 	}
-    
+		
 	public WebElement getSource() {
 		return source;
 	}
@@ -74,9 +75,9 @@ public class DirectionsPage {
 		this.trafficRouteRibbon = trafficRouteRibbon;
 	}
 
-	public DirectionsPage(WebDriver webDriver){
+	public DirectionsPage(WebDriver webDriver, Properties properties){
 		this.webDriver = webDriver;
-		properties = PropertyLoader.loadProperties();
+		this.properties = properties;
 	}
 
 	public WebElement getDirectionTab() {
@@ -116,9 +117,9 @@ public class DirectionsPage {
 			for(WebElement direction : webElementList){
 				System.out.println("direction: "+direction.getText());
 			}
+	    }
+		
 	}
-	
-	
-	}
+    
 	
 }
