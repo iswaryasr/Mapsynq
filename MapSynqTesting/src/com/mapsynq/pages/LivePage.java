@@ -19,8 +19,14 @@ public class LivePage {
     WebElement selectTollLocation, adToggle, frame1, selectDate = null;
     WebElement noIncidentInfo = null; 
     List<WebElement> rates, incidentList, incidentTimes;
-	
-	public void loadLiveWebElements(){
+	/**
+	 * This method loads the xpaths for Live Page elements
+	 * Locates the element using selenium find_element_by_xpath method
+	 * And stores it in a WebElement Objects. 
+	 */
+	public boolean loadLiveWebElements(){
+		boolean isLoaded = false;
+		try{
 		liveTab = webDriver.findElement(By.xpath(properties.getProperty("livetabxpath")));
 		incidentBtn = webDriver.findElement(By.xpath(properties.getProperty("incidentbtnxpath")));
 		camerasBtn = webDriver.findElement(By.xpath(properties.getProperty("camerasbtnxpath")));
@@ -28,13 +34,25 @@ public class LivePage {
 		tollsLocSearchBox = webDriver.findElement(By.xpath(properties.getProperty("locsearchtxtbox")));
 		selectTollLocation = webDriver.findElement(By.xpath(properties.getProperty("selecttollloc")));
 		adToggle = webDriver.findElement(By.xpath(properties.getProperty("adtogglecollapse")));
-		//frame1= webDriver.findElement(By.id(properties.getProperty("ERPratesframe")));
 		selectDate = webDriver.findElement(By.xpath(properties.getProperty("seldate")));
-    }
+		isLoaded =true;
+		}
+		catch(Exception e){
+			isLoaded = false;
+		}
+		return isLoaded;
+	}
         
-	public void loadLiveIncidentElements(){
-		
+	public boolean loadLiveIncidentElements(){
+		boolean isLoaded = false;
+		try{
 		noIncidentInfo=webDriver.findElement(By.xpath(properties.getProperty("noincinfo")));
+		isLoaded = true;
+		}
+		catch(Exception e){
+			isLoaded = false;
+		}
+		return isLoaded;
 	}
 	public WebElement getLiveTab() {
 		return liveTab;
@@ -115,7 +133,7 @@ public class LivePage {
 	public void setSelectDate(WebElement selectDate) {
 		this.selectDate = selectDate;
 	}
-	//List<WebElement> rates, incidentList, incidentTimes;
+	
 	public List<WebElement> getRates() {
 		return rates;
 	}
@@ -160,28 +178,69 @@ public class LivePage {
 		this.properties =properties;
 	}
 	
-	public void clickLiveTab(){
-		liveTab.click();
+	public boolean clickLiveTab(){
+		boolean isClicked =false;
+		try{
+			liveTab.click();
+			isClicked = true;
+		}
+		catch(Exception e){
+			isClicked = false;
+		}
+		return isClicked;
 	}
-	public void clickTollsTab(){
-		tollsBtn.click();
+	
+	public boolean clickTollsTab(){
+		boolean isClicked = false;
+		try{
+			tollsBtn.click();
+			isClicked = true;
+		}
+		catch(Exception e){
+			isClicked =false;
+		}
+		return isClicked;
 	}
-	public void selectTollLoc(){
-		selectTollLocation.click();		
+	
+	public boolean selectTollLoc(){
+		boolean isClicked =false;
+		try{
+			selectTollLocation.click();	
+			isClicked = true;
+		}
+		catch(Exception e){
+			isClicked =false;
+		}
+		return isClicked;		
 	}
 	public void closeAdToggle(){
 		adToggle.click();
 	}
-	public void selectVehicleTollCharge(String vehicleType){
+	/**
+	 * This method selects the type of vehicle for which toll charges are needed.
+	 * @param vehicleType
+	 */
+	public boolean selectVehicleTollCharge(String vehicleType){
+		boolean isClicked = false;
+		try{
 		vehTypeDropDown =  webDriver.findElement(By.xpath(properties.getProperty("vehicledrpdwn")));
 	    vehTypeDropDown.click();
 		Select drop= new Select(vehTypeDropDown);
 		drop.selectByVisibleText(vehicleType);
-		vehTypeDropDown.sendKeys(Keys.ENTER);			
+		vehTypeDropDown.sendKeys(Keys.ENTER);
+		isClicked = true;
 		}
-	
-	public void printTollCharges(){
-
+		catch(Exception e){
+			isClicked = false;
+		}
+		return isClicked;
+	}
+	/**
+	 * This method prints the toll charges for the give type of vehicle
+	 */
+	public boolean printTollCharges(){
+		boolean isPrinted = false;
+		try{
 		rates = webDriver.findElements(By.xpath(properties.getProperty("tollrates")));
 		List<WebElement> webElementList = rates;
 		
@@ -194,21 +253,56 @@ public class LivePage {
 		}else{
 				System.out.println("Toll rates are blank");
 		}
+		isPrinted = true;
+		}
+		
+		catch(Exception e){
+			isPrinted = false;
+		}
+		return isPrinted;
 	}	
-	
-	public void clickIncidentsBtn(){
-		incidentBtn.click();
+    /**
+     * This method clicks the Incident button.
+     */
+	public boolean clickIncidentsBtn(){
+		boolean isClicked = false;
+		try{
+			incidentBtn.click();
+			isClicked = true;
+		}
+		catch(Exception e){
+			isClicked = false;
+		}
+		return isClicked;
 	}
-	public void selectDate(String Date){
+	/**
+	 * This method selects the date for getting the incidents
+	 * @param Date
+	 */
+	public boolean selectDate(String Date){
+		boolean isSelected = false;
+		try{
 		System.out.println("Date:"+Date);
 		Select date= new Select(selectDate);
 		date.selectByVisibleText(Date);
-			
+		isSelected = true;
+		}
+		catch(Exception e){
+			isSelected = false;
+		}
+		return isSelected;
 	}
-	public void checkIncidents(){
+	/**
+	 * This method checks if the incidents appear for the given date and
+	 * prints the same
+	 */
+	public boolean checkIncidents(){
 		
+		boolean isSuccess = false;
+		try{
 		if(webDriver.findElement(By.xpath(properties.getProperty("noincinfo"))).isDisplayed()){
-			System.out.println("No incident appears for the given date or location");
+			isSuccess = true;
+			//System.out.println("No incident appears for the given date or location");
 			
 		}else{
 			incidentList=webDriver.findElements(By.xpath(properties.getProperty("incidents")));
@@ -218,11 +312,18 @@ public class LivePage {
 				System.out.println("Below incident appears for the given date or location:");
 				for(WebElement incident : incList) {
 				//for (incList, incTimeList; incList.size(),incTimeList.size();){
-				
+					isSuccess = true;
 					System.out.println("*"+incident.getText());
 				}
 			}
 		}
+		}
+		catch(Exception e){
+			isSuccess = false;
+			System.err.println("Exception while testing incident "+e.getMessage());
+		}
+		
+		return isSuccess;
 		
 	}	
 	

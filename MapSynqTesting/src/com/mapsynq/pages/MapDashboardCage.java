@@ -1,5 +1,6 @@
 package com.mapsynq.pages;
 
+import java.util.NoSuchElementException;
 import java.util.Properties;
 
 import org.openqa.selenium.By;
@@ -13,13 +14,20 @@ public class MapDashboardCage {
 
 	WebElement btnpanelTraffic, btnpanelIncidents, btnpanelParking, btnpanelCameras, btnpanelTolls = null;
 	
-	public void loadButtonPanelElements(){
+	public boolean loadButtonPanelElements(){
+		boolean isLoaded = false;
+		try{
 		btnpanelTraffic = webDriver.findElement(By.xpath(properties.getProperty("btnpnltraffic")));
 		btnpanelIncidents = webDriver.findElement(By.xpath(properties.getProperty("btnpnlincidents")));
 		btnpanelParking = webDriver.findElement(By.xpath(properties.getProperty("btnpnlparking")));
 		btnpanelCameras = webDriver.findElement(By.xpath(properties.getProperty("btnpnlcameras")));
 		btnpanelTolls = webDriver.findElement(By.xpath(properties.getProperty("btnpnltolls")));
-
+		isLoaded = true;
+		}
+		catch(NoSuchElementException e){
+			isLoaded = false;
+		}
+		return isLoaded;
 	}
 	
 	public WebDriver getWebDriver() {
@@ -105,33 +113,23 @@ public class MapDashboardCage {
 	}
 
 
+	public boolean checkButton(WebElement element,String inactiveCss, String activeCss, String button){
+		boolean isButtonActive = false;
+		boolean isButtonInActive = false;
 
-	public void checkButtonPanelItems(){
-		if(checkButton(btnpanelTraffic,"speedButtonItemInActive","speedButtonItemActive","Traffic")){
-			System.out.println("Traffic Button working as expected");
+		element.click();
+		if(element.getAttribute("class").equalsIgnoreCase(activeCss)){
+			System.out.println(button+" button is enabled");
+			isButtonInActive = true;
 		}
+		else if(element.getAttribute("class").equalsIgnoreCase(inactiveCss)){
+			System.out.println(button+" button is disabled");
+			isButtonActive = true;
+		}
+		//if(isButtonActive && isButtonInActive){
+		//}
+		return isButtonActive && isButtonInActive;
 	}
-	
-    public boolean checkButton(WebElement element,String inactiveCss, String activeCss, String button){
-    	boolean exitMethod = false;
-    	boolean isButtonActive = false;
-    	boolean isButtonInActive = false;
-    	while(!exitMethod){
-    		element.click();
-    		if(element.getAttribute("class").equalsIgnoreCase(activeCss)){
-    			System.out.println(button+" button is enabled");
-    			isButtonInActive = true;
-    		}
-    		else if(element.getAttribute("class").equalsIgnoreCase(inactiveCss)){
-    			System.out.println(button+" button is disabled");
-    			isButtonActive = true;
-    		}
-    		if(isButtonActive && isButtonInActive){
-    			exitMethod = true;
-    		}
-    	}
-    	return exitMethod;
-    }
     	
 	public MapDashboardCage(WebDriver webDriver, Properties properties) {
 		this.webDriver = webDriver;

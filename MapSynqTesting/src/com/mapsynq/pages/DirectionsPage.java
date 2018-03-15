@@ -7,10 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import com.mapsynq.util.PropertyLoader;
 
 public class DirectionsPage {
 
@@ -23,14 +20,27 @@ public class DirectionsPage {
 	String destinationProp = null;
 	
 	WebElement source,destination, directionButton, directionTab, trafficRouteRibbon = null;
-	
-	public void loadDirectionWebElements(){
+	/**
+	 * This method loads the xpaths for direction page elements
+	 * Locates the element using selenium find_element_by_xpath method
+	 * And stores it in a WebElement Object. 
+	 * 
+	 */
+	public boolean loadDirectionWebElements(){
+		boolean isLoaded = false;
+		try{
 		source = webDriver.findElement(By.xpath(properties.getProperty("srcxpath")));
 		destination = webDriver.findElement(By.xpath(properties.getProperty("destxpath")));
 		directionButton = webDriver.findElement(By.xpath(properties.getProperty("dirnbutnxpath")));
 		directionTab = webDriver.findElement(By.xpath(properties.getProperty("dirtabxpath")));
 		trafficRouteRibbon = webDriver.findElement(By.xpath(properties.getProperty("trafficroutexpath")));
 		trafficRouteDirection = webDriver.findElements(By.xpath(properties.getProperty("trafficroutedirection")));
+		isLoaded = true;
+		}
+		catch(Exception e){
+			isLoaded = false;
+		}
+		return isLoaded;
 	}
 		
 	public WebElement getSource() {
@@ -97,28 +107,64 @@ public class DirectionsPage {
 	}
 
 	    
-	public void clickDirectionTab(){
+	public boolean clickDirectionTab(){
+		boolean isClicked = false;
+		try{
 		directionTab.click();
-		
+		isClicked = true;
+		}
+		catch(Exception e){
+			isClicked = false;
+		}
+		return isClicked;
 	}
-	public void clickGetDirection(){
+	public boolean clickGetDirection(){
+		boolean isClicked = false;
+		try{
 		directionButton.click();
+		isClicked = true;
+		}
+		catch(Exception e){
+			isClicked = false;
+		}
+		return isClicked;
 	}
-	
-	public void clickTrafficRouteRibbon(){
+	/**
+	 * This method clicks the traffic route ribbon icon in the directions page
+	 */
+	public boolean clickTrafficRouteRibbon(){
+		boolean isClicked = false;
+		try{
 		WebDriverWait wait = new WebDriverWait(webDriver,30);
 	    wait.until(ExpectedConditions.visibilityOf(trafficRouteRibbon));
 		trafficRouteRibbon.click();
+		isClicked = true;
+		}
+		catch(Exception e){
+			isClicked = false;
+		}
+		return isClicked;
 	}
-	public void printTrafficRoute(){
+	/**
+	 * This method prints the direction to the specified location populated in the direction
+	 * page after clicking the traffic route ribbon button
+	 */
+	public boolean printTrafficRoute(){
         List<WebElement> webElementList = trafficRouteDirection;
-		
+		boolean isPrinted = false;
+		try{
 		if(!webElementList.isEmpty()){
 			for(WebElement direction : webElementList){
+				isPrinted = true;
 				System.out.println("direction: "+direction.getText());
 			}
+			
 	    }
-		
+		}
+		catch(Exception e){
+			isPrinted = false;
+		}
+		return isPrinted;
 	}
     
 	

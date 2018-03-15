@@ -7,7 +7,7 @@ import java.util.Properties;
 
 public class PropertyLoader {
 	/**
-	 * 
+	 * This method loads the properties present in config page
 	 * @return
 	 */
 	public static Properties loadProperties(){
@@ -16,7 +16,7 @@ public class PropertyLoader {
 		Properties properties = new Properties();
 		try{
 			//System.out.println(getClass().);
-			input = new FileInputStream("D:/Workspace/sample/MapSynqTesting/src/resources/Config.properties");
+			input = new FileInputStream(Constants.CONFIG_PATH);
 			properties.load(input);
 		}
 		catch(IOException e){
