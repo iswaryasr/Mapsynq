@@ -1,7 +1,8 @@
 # Mapsynq
-Description: This exercise is developed in Java and Selenium. Implemented using POM(Page Object Model).
-This will work in MOZILLA FIREFOX,GOOGLE CHROME AND INTERNET EXPLORER BROWSERS.
-As this project is done in java, it is capable of running in any OS.
+Description: 
+This problem is developed using Java and Selenium. Implemented POM(Page Object Model) approach.
+Supported Browsers - MOZILLA FIREFOX,GOOGLE CHROME AND INTERNET EXPLORER BROWSERS.
+Supported OS - Windows, Linux and MAC(Chosen Java as it is platform independent)
 
 Page classes:
 -------------
@@ -22,12 +23,21 @@ This class has below methods.
 
 Config File:
 ------------
-Config.properties file has xpaths of the MapSync elements and user inputs as well.
+Config.properties file has xpaths of the MapSync elements and user inputs as well. This is done to avoid any rework in the code if there is any change to the html elements made by the developers.
 
 Prerequisites:
 -------------
 * JDK 1.8
-* I had Config.properties file placed in "D:/Workspace/sample/MapSynqTesting/src/resources/Config.properties".So please update the path of config file in Constants class in the variable "CONFIG_PATH".
+* Eclipse which supports JDK 1.8
+* Jars like Junit, Selenium are placed as part of this project and does not require to be downloaded.
+
+Steps to Run:
+------------
+* Constants.java contains a variable "CONFIG_PATH" which needs to be modified with the path where this project is currently placed in your system Config.properties. Path configured in the Constants.java is as below.
+  D:/Workspace/sample/MapSynqTesting/src/resources/Config.properties
+* Once this path is modified, Right click on TestMapSync.java and click on Run as Junit Test case.
+* Test cases will be executed and the test case results will be available in Eclipse Junit tab.
+
 
 
 
